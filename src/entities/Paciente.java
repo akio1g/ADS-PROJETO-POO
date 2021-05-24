@@ -2,7 +2,7 @@ package entities;
 
 import java.util.Date;
 
-public class Paciente{
+public class Paciente {
 	private int id;
 	private String nome;
 	private Date dataNascimento;
@@ -10,7 +10,7 @@ public class Paciente{
 	private String telefone;
 	private String endereco;
 	public TipoConvenio convenio;
-	
+
 	public Paciente(int id, String nome, Date dataNascimento, String cpf, String telefone, String endereco,
 			TipoConvenio convenio) {
 		super();
@@ -21,6 +21,9 @@ public class Paciente{
 		this.telefone = telefone;
 		this.endereco = endereco;
 		this.convenio = convenio;
+	}
+
+	public Paciente() {
 	}
 
 	public int getId() {
@@ -78,7 +81,5 @@ public class Paciente{
 	public void setConvenio(TipoConvenio convenio) {
 		this.convenio = convenio;
 	}
-	
 
-	
 }
