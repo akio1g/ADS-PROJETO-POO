@@ -3,35 +3,34 @@ package application;
 import controller.PrincipalController;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+// COLOCAR ENTER PRA LOGAR
 public class Principal extends Application {
-	private static Stage stg;
-	private Label title = new Label("Login");
-	private TextField tfUsuario = new TextField("Usuario");
-	private TextField tfSenha = new TextField("Senha");
-	private Button btEntrar = new Button("Entrar");
-	
-	PrincipalController pControl = new PrincipalController();
-	
-	public static Stage getStg() {
-		return stg;
-	}
-
-	public static void setStg(Stage stg) {
-		Principal.stg = stg;
-	}
-
+	public static Stage stage;
+	public static Scene scn = null;
+	static PrincipalController pControl = new PrincipalController();
 	
 	@Override
 	public void start(Stage stg) throws Exception {
+		stage = stg;
 		stg.setTitle("Clínica Médica");
-		Scene scn = pControl.telaLogin(title, tfUsuario, tfSenha, btEntrar);
-		stg.setScene(scn);
+		mudarScene(0);
 		stg.show();
+	}
+	
+	public static void mudarScene(int index){
+		switch(index){
+		case 0:
+			scn = pControl.telaLogin();
+			break;
+		case 1:
+			scn = pControl.telaEscolha();
+			break;
+		case 2:
+		case 3:
+		case 4:
+		}
+		stage.setScene(scn);
 	}
 
 
