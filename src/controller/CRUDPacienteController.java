@@ -2,8 +2,6 @@ package controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import application.Principal;
 import entities.Paciente;
@@ -41,18 +39,6 @@ public class CRUDPacienteController implements Func {
 	ComboBox<TipoConvenio> cbConvenio = new ComboBox<>();
 	Button btLimpar = new Button("Limpar");
 	Button btVoltar = new Button("Voltar");
-
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	private List<Paciente> pacientesRegistrados = new ArrayList<>();
-
-
-	public List<Paciente> getPacientesRegistrados() {
-		return pacientesRegistrados;
-	}
-
-	public void setPacientesRegistrados(List<Paciente> pacientesRegistrados) {
-		this.pacientesRegistrados = pacientesRegistrados;
-	}
 
 	public Scene telaPaciente() {
 		HBox pane1 = new HBox(10);
@@ -97,9 +83,9 @@ public class CRUDPacienteController implements Func {
 	public void adicionar() {
 		Paciente a = new Paciente();
 		try {
-			a.setId(pacientesRegistrados.size() + 1);
+			a.setId(Principal.getPacientesRegistrados().size() + 1);
 			a.setNome(tfNome.getText());
-			a.setDataNascimento(sdf.parse(tfData.getText()));
+			a.setDataNascimento(Principal.sdf.parse(tfData.getText()));
 			a.setCpf(tfCpf.getText());
 			a.setTelefone(tfTelefone.getText());
 			a.setEndereco(tfEndereco.getText());
@@ -108,18 +94,18 @@ public class CRUDPacienteController implements Func {
 		} catch (ParseException e) {
 			message.setText(e.getMessage());
 		}
-		pacientesRegistrados.add(a);
+		Principal.getPacientesRegistrados().add(a);
 	}
 
 	@Override
 	public void alterarPorId(Integer id) {
 		boolean opc = false;
-		for (Paciente p : pacientesRegistrados) {
+		for (Paciente p : Principal.getPacientesRegistrados()) {
 			if (p.getId() == id) {
 				try {
 					opc = true;
 					p.setNome(tfNome.getText());
-					p.setDataNascimento(sdf.parse(tfData.getText()));
+					p.setDataNascimento(Principal.sdf.parse(tfData.getText()));
 					p.setCpf(tfCpf.getText());
 					p.setTelefone(tfTelefone.getText());
 					p.setEndereco(tfEndereco.getText());
@@ -138,10 +124,10 @@ public class CRUDPacienteController implements Func {
 	@Override
 	public void excluirPorId(Integer id) {
 		boolean opc = false;
-		for (Paciente p : pacientesRegistrados) {
+		for (Paciente p : Principal.getPacientesRegistrados()) {
 			if (p.getId() == id) {
 				opc = true;
-				pacientesRegistrados.remove(p);
+				Principal.getPacientesRegistrados().remove(p);
 				message.setText("Paciente ID: " + id + " removido!");
 				break;
 			}
@@ -154,11 +140,11 @@ public class CRUDPacienteController implements Func {
 	@Override
 	public void pesquisarPorId(Integer id) {
 		boolean opc = false;
-		for (Paciente p : pacientesRegistrados) {
+		for (Paciente p : Principal.getPacientesRegistrados()) {
 			if (p.getId() == id) {
 				opc = true;
 				tfNome.setText(p.getNome());
-				tfData.setText(sdf.format(p.getDataNascimento()));
+				tfData.setText(Principal.sdf.format(p.getDataNascimento()));
 				tfCpf.setText(p.getCpf());
 				tfTelefone.setText(p.getTelefone());
 				tfEndereco.setText(p.getEndereco());
@@ -172,6 +158,7 @@ public class CRUDPacienteController implements Func {
 	
 	public void limpar() {
 		tfId.setText("");
+		cbConvenio.getSelectionModel().clearSelection();
 		tfNome.setText("");
 		tfData.setText("");
 		tfCpf.setText("");
