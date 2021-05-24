@@ -1,14 +1,11 @@
 package entities.func;
 
-
-import entities.Paciente;
-
-public interface PacienteFunc {
+public interface Func {
 	public void adicionar();
 
 	public void alterarPorId(Integer id);
 
 	public void excluirPorId(Integer id);
 
-	public Paciente pesquisarPorId(Integer id);
+	public void pesquisarPorId(Integer id);
 }
