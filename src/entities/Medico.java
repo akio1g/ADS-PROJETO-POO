@@ -1,17 +1,17 @@
 package entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Medico {
 	private int id;
 	private String nome;
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 	private String cpf;
 	private String telefone;
 	private String endereco;
 	private TipoEspecialidade especialidade;
 
-	public Medico(int id, String nome, Date dataNascimento, String cpf, String telefone, String endereco,
+	public Medico(int id, String nome, LocalDate dataNascimento, String cpf, String telefone, String endereco,
 			TipoEspecialidade especialidade) {
 		super();
 		this.id = id;
@@ -43,16 +43,16 @@ public class Medico {
 		this.nome = nome;
 	}
 
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
 	public String getCpf() {
-		return cpf;
+		return cpf;	
 	}
 
 	public void setCpf(String cpf) {

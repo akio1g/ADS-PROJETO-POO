@@ -1,39 +1,42 @@
 package application;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import controller.CRUDMedicoController;
-import controller.CRUDPacienteController;
-import controller.ConsultaController;
-import controller.EscolhaController;
-import controller.PrincipalController;
+import controller.CRUDMedicoBoundary;
+import controller.CRUDPacienteBoundary;
+import controller.ConsultaBoundary;
+import controller.EscolhaBoundary;
+import controller.PrincipalBoundary;
+import controller.RegistrosBoundary;
+import entities.Atendente;
 import entities.Consulta;
 import entities.Medico;
 import entities.Paciente;
-import entities.TipoConvenio;
-import entities.TipoEspecialidade;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.LogsIniciais;
 
-// COLOCAR ENTITIES CONSULTA E CRIAR CRUD CONSULTA
 public class Principal extends Application {
-	public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	public static SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
 	public static Stage stage;
 	public static Scene scn = null;
-	static PrincipalController pController = new PrincipalController();
-	static CRUDPacienteController cpController = new CRUDPacienteController();
-	static CRUDMedicoController cmController = new CRUDMedicoController();
-	static EscolhaController eController = new EscolhaController();
-	static ConsultaController cController = new ConsultaController();
+	public static PrincipalBoundary pBoundary = new PrincipalBoundary();
+	public static CRUDPacienteBoundary cpBoundary = new CRUDPacienteBoundary();
+	public static CRUDMedicoBoundary cmBoundary = new CRUDMedicoBoundary();
+	public static EscolhaBoundary eBoundary = new EscolhaBoundary();
+	public static ConsultaBoundary consultaBoundary = new ConsultaBoundary();
+	public static RegistrosBoundary rBoundary = new RegistrosBoundary();
+	private static LogsIniciais logs = new LogsIniciais();
 	private static List<Medico> medicosRegistrados = new ArrayList<>();
 	private static List<Paciente> pacientesRegistrados = new ArrayList<>();
 	private static List<Consulta> consultaRegistrados = new ArrayList<>();
-	
+	private static List<Atendente> atendentesRegistrados = new ArrayList<>();
+
 	@Override
 	public void start(Stage stg) throws Exception {
 		stage = stg;
@@ -42,53 +45,37 @@ public class Principal extends Application {
 		stg.show();
 	}
 
-	public static void iniciarPessoas() {
-		pacientesRegistrados.add(new Paciente(1, "Gabriel", new Date(),"5403909346", "11998143671",
-				"rua das arvores", TipoConvenio.Vivest));
-		pacientesRegistrados.add(new Paciente(2, "Marcos", new Date(), "5472457754", "11984758764",
-				"rua das pedras", TipoConvenio.Amil));
-		pacientesRegistrados.add(new Paciente(3, "Marcelo", new Date(), "7807806456", "1199814421",
-				"rua das palhaças", TipoConvenio.NotreDame));
-		pacientesRegistrados.add(new Paciente(4, "Joao", new Date(), "4326235476", "11998187645",
-				"rua das tortas", TipoConvenio.Unimed));
-		medicosRegistrados.add(new Medico(1, "dr Fernando", new Date(), "6431261346", "3161616134",
-				"rua maracuta", TipoEspecialidade.Cardiologia));
-		medicosRegistrados.add(new Medico(2, "dr Frederico", new Date(), "89678079057", "625472457",
-				"rua maça", TipoEspecialidade.Dermatologia));
-		medicosRegistrados.add(new Medico(3, "dr Alan", new Date(), "6431261346", "3161616134",
-				"rua dos copos", TipoEspecialidade.Ortopedia));
-		medicosRegistrados.add(new Medico(4, "dra Camila", new Date(), "7850780587", "4572548248",
-				"rua dos bambus", TipoEspecialidade.Psiquiatria));
-	}
-
 	public static void mudarScene(int index) {
 		switch (index) {
-		case 0:
+		case 0: // tela login
 			stage.setTitle("Login");
-			scn = pController.telaLogin();
+			scn = pBoundary.telaLogin();
 			break;
-		case 1:
+		case 1: // tela escolha
 			stage.setTitle("Escolha");
-			scn = eController.telaEscolha();
+			scn = eBoundary.telaEscolha();
 			break;
-		case 2:
+		case 2: // tela crud paciente
 			stage.setTitle("Paciente");
-			scn = cpController.telaPaciente();
+			scn = cpBoundary.telaPaciente();
 			break;
-		case 3:
+		case 3: // tela crud medico
 			stage.setTitle("Médico");
-			scn = cmController.telaMedico();
+			scn = cmBoundary.telaMedico();
 			break;
-		case 4:
+		case 4: // tela crud consulta
 			stage.setTitle("Consulta");
-			scn = cController.telaConsulta();
+			scn = consultaBoundary.telaConsulta();
 			break;
+		case 5: // tela registros
+			stage.setTitle("Registros");
+			scn = rBoundary.telaRegistro();
 		}
 		stage.setScene(scn);
 	}
 
 	public static void main(String[] args) {
-		iniciarPessoas();
+		logs.inicializar();
 		Application.launch(Principal.class, args);
 	}
 
@@ -102,5 +89,9 @@ public class Principal extends Application {
 
 	public static List<Consulta> getConsultaRegistrados() {
 		return consultaRegistrados;
+	}
+
+	public static List<Atendente> getAtendentesRegistrados() {
+		return atendentesRegistrados;
 	}
 }

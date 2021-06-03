@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.List;
-
 import application.Principal;
 import entities.Atendente;
 import javafx.geometry.Insets;
@@ -14,16 +12,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import utils.Alerts;
 
-public class PrincipalController {
-
-	List<Atendente> logs = List.of(new Atendente("root", "123"), new Atendente("admin", "123"));// lista dos logins ja
-																								// criados
+public class PrincipalBoundary {
 
 	public Scene telaLogin() {
 		Label title = new Label("Login");
 		TextField tfUsuario = new TextField("Usuario");
 		TextField tfSenha = new TextField("Senha");
 		Button btEntrar = new Button("Entrar");
+		btEntrar.setDefaultButton(true);
 		VBox pane = new VBox(20);
 
 		VBox.setMargin(tfUsuario, new Insets(0, 40, 0, 40));
@@ -38,7 +34,7 @@ public class PrincipalController {
 
 	public void login(String login, String senha) {
 		int funcionou = 0;
-		for (Atendente x : logs) {
+		for (Atendente x : Principal.getAtendentesRegistrados()) {
 			if (x.getLogin().equals(login) && x.getSenha().equals(senha)) {
 				Principal.mudarScene(1);
 				funcionou = 1;

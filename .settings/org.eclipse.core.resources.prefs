@@ -2,4 +2,6 @@ eclipse.preferences.version=1
 encoding//src/application/Principal.java=UTF-8
 encoding//src/controller/CRUDMedicoController.java=UTF-8
 encoding//src/controller/CRUDPacienteController.java=UTF-8
-encoding//src/controller/PrincipalController.java=UTF-8
+encoding//src/controller/ConsultaController.java=UTF-8
+encoding//src/controller/PrincipalBoundary.java=UTF-8
+encoding//src/utils/LogsIniciais.java=UTF-8
