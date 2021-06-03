@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 
 public class CRUDPacienteBoundary {
 	CRUDPacienteController cpController = new CRUDPacienteController();
-	
+
 	Label lblId = new Label("ID Paciente");
 	TextField tfId = new TextField();
 	Button btPesquisar = new Button("Pesquisar");
@@ -61,19 +61,32 @@ public class CRUDPacienteBoundary {
 		pane2.add(btLimpar, 3, 4);
 		pane2.add(btVoltar, 4, 4);
 
-		cbConvenio.getItems().addAll(TipoConvenio.values());
-
-		btPesquisar.setOnAction((e) -> cpController.pesquisarPorId(Integer.parseInt(tfId.getText())));
-		btAdicionar.setOnAction((e) -> cpController.adicionar());
-		btAlterar.setOnAction((e) -> cpController.alterarPorId(Integer.parseInt(tfId.getText())));
-		btExcluir.setOnAction((e) -> cpController.excluirPorId(Integer.parseInt(tfId.getText())));
-		btLimpar.setOnAction((e) -> cpController.limpar());
-		btVoltar.setOnAction((e) -> Principal.mudarScene(1));
+		adicionarComboBox();
+		addAcoesBotoes();
 
 		VBox panePrincipal = new VBox(20);
 		panePrincipal.getChildren().addAll(pane1, pane2);
 		panePrincipal.setPadding(new Insets(10, 0, 0, 0));
 		Scene scn = new Scene(panePrincipal, 600, 200);
 		return scn;
+	}
+
+	private void addAcoesBotoes() {
+		btPesquisar.setOnAction((e) -> cpController.pesquisarPorId(Integer.parseInt(tfId.getText())));
+		btAdicionar.setOnAction((e) -> cpController.adicionar());
+		btAlterar.setOnAction((e) -> cpController.alterarPorId(Integer.parseInt(tfId.getText())));
+		btExcluir.setOnAction((e) -> cpController.excluirPorId(Integer.parseInt(tfId.getText())));
+		btLimpar.setOnAction((e) -> cpController.limpar());
+		btVoltar.setOnAction((e) -> Principal.mudarScene(1));
+	}
+
+	private void adicionarComboBox() {
+		if (cbConvenio.getItems().isEmpty()) {
+			cbConvenio.getItems().addAll(TipoConvenio.values());
+		} else {
+			cbConvenio.getItems().clear();
+			cbConvenio.getItems().addAll(TipoConvenio.values());
+		}
+
 	}
 }

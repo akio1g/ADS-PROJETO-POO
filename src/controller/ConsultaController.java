@@ -11,23 +11,6 @@ import entities.Paciente;
 import entities.func.Func;
 
 public class ConsultaController implements Func {
-	
-	public List<String> ListaNomes() {
-		List<String> listanomes = new ArrayList<>();
-		for (Medico m : Principal.getMedicosRegistrados()) {
-			listanomes.add(m.getNome());
-		}
-		return listanomes;
-	}
-
-	public List<String> ListaCpfs() {
-		List<String> listacpf = new ArrayList<>();
-		for (Paciente p : Principal.getPacientesRegistrados()) {
-			listacpf.add(p.getCpf());
-		}
-		return listacpf;
-	}
-
 
 	public String pesquisarCpf() {
 		String nome = null;

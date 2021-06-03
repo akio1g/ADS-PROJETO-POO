@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class CRUDMedicoBoundary {
-	
+
 	CRUDMedicoController cmControl = new CRUDMedicoController();
 	Label lblId = new Label("ID Medico");
 	TextField tfId = new TextField();
@@ -38,7 +38,6 @@ public class CRUDMedicoBoundary {
 	Button btLimpar = new Button("Limpar");
 	Button btVoltar = new Button("Voltar");
 
-	
 	public Scene telaMedico() {
 		HBox pane1 = new HBox(10);
 		pane1.setPadding(new Insets(0, 0, 0, 10));
@@ -62,19 +61,32 @@ public class CRUDMedicoBoundary {
 		pane2.add(btLimpar, 3, 4);
 		pane2.add(btVoltar, 4, 4);
 
-		cbEspecialidade.getItems().addAll(TipoEspecialidade.values());
+		adicionarComboBox();
 
-		btPesquisar.setOnAction((e) -> cmControl.pesquisarPorId(Integer.parseInt(tfId.getText())));
-		btAdicionar.setOnAction((e) -> cmControl.adicionar());
-		btAlterar.setOnAction((e) -> cmControl.alterarPorId(Integer.parseInt(tfId.getText())));
-		btExcluir.setOnAction((e) -> cmControl.excluirPorId(Integer.parseInt(tfId.getText())));
-		btLimpar.setOnAction((e) -> cmControl.limpar());
-		btVoltar.setOnAction((e) -> Principal.mudarScene(1));
+		acoesBotoes();
 
 		VBox panePrincipal = new VBox(20);
 		panePrincipal.getChildren().addAll(pane1, pane2);
 		panePrincipal.setPadding(new Insets(10, 0, 0, 0));
 		Scene scn = new Scene(panePrincipal, 600, 200);
 		return scn;
+	}
+
+	private void acoesBotoes() {
+		btPesquisar.setOnAction((e) -> cmControl.pesquisarPorId(Integer.parseInt(tfId.getText())));
+		btAdicionar.setOnAction((e) -> cmControl.adicionar());
+		btAlterar.setOnAction((e) -> cmControl.alterarPorId(Integer.parseInt(tfId.getText())));
+		btExcluir.setOnAction((e) -> cmControl.excluirPorId(Integer.parseInt(tfId.getText())));
+		btLimpar.setOnAction((e) -> cmControl.limpar());
+		btVoltar.setOnAction((e) -> Principal.mudarScene(1));
+	}
+
+	private void adicionarComboBox() {
+		if (cbEspecialidade.getItems().isEmpty()) {
+			cbEspecialidade.getItems().addAll(TipoEspecialidade.values());
+		} else {
+			cbEspecialidade.getItems().clear();
+			cbEspecialidade.getItems().addAll(TipoEspecialidade.values());
+		}
 	}
 }

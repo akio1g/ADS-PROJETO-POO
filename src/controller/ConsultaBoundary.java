@@ -1,6 +1,11 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import application.Principal;
+import entities.Medico;
+import entities.Paciente;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ConsultaBoundary {
-	
+
 	ConsultaController cControl = new ConsultaController();
 	CRUDMedicoController cmControl = new CRUDMedicoController();
 	Label lblId = new Label("ID Consulta");
@@ -25,7 +30,7 @@ public class ConsultaBoundary {
 	Button btLimpar = new Button("Limpar");
 	Button btVoltar = new Button("Voltar");
 	Label lblCpf = new Label("CPF Paciente");
-	ComboBox<String> cbCpfPaciente = new ComboBox<>();
+
 	Label lblNomePaciente = new Label("");
 	Label lblNomeMedico = new Label("Nome Médico");
 	Label message = new Label("");
@@ -33,16 +38,19 @@ public class ConsultaBoundary {
 	DatePicker tfData = new DatePicker();
 	Label lblHora = new Label("Hora Consulta");
 	TextField tfHora = new TextField("");
+	ComboBox<String> cbCpfPaciente = new ComboBox<>();
 	ComboBox<String> cbNomeMedico = new ComboBox<>();
+	Insets margem = new Insets(0,0,0,10);
 	
 	public Scene telaConsulta() {
+
 		HBox pane1 = new HBox(10);
-		pane1.setPadding(new Insets(0, 0, 0, 10));
+		pane1.setPadding(margem);
 		pane1.getChildren().addAll(lblId, tfId, btPesquisar, btAlterar, btExcluir);
 
 		GridPane pane2 = new GridPane();
 		pane2.setHgap(10);
-		pane2.setPadding(new Insets(0, 0, 0, 10));
+		pane2.setPadding(margem);
 		pane2.add(lblCpf, 0, 0);
 		pane2.add(cbCpfPaciente, 1, 0);
 		pane2.add(lblNomePaciente, 2, 0);
@@ -57,16 +65,9 @@ public class ConsultaBoundary {
 		HBox pane3 = new HBox(10);
 		pane3.getChildren().addAll(btAdicionar, btLimpar, btVoltar);
 
-		cbCpfPaciente.getItems().addAll(cControl.ListaCpfs());
-		cbNomeMedico.getItems().addAll(cControl.ListaNomes());
+		adicionarComboBox();
 
-		cbCpfPaciente.setOnAction((e) -> lblNomePaciente.setText(cControl.pesquisarCpf()));
-		btPesquisar.setOnAction((e) -> cControl.pesquisarPorId(Integer.parseInt(tfId.getText())));
-		btAlterar.setOnAction((e) -> cControl.alterarPorId(Integer.parseInt(tfId.getText())));
-		btExcluir.setOnAction((e) -> cControl.excluirPorId(Integer.parseInt(tfId.getText())));
-		btAdicionar.setOnAction((e) -> cControl.adicionar());
-		btLimpar.setOnAction((e) -> cControl.limpar());
-		btVoltar.setOnAction((e) -> Principal.mudarScene(1));
+		acoesbotoes();
 
 		VBox panePrincipal = new VBox(10);
 		panePrincipal.getChildren().addAll(pane1, pane2, pane3);
@@ -74,4 +75,46 @@ public class ConsultaBoundary {
 		Scene scn = new Scene(panePrincipal, 620, 200);
 		return scn;
 	}
+
+	private void acoesbotoes() {
+		cbCpfPaciente.setOnAction((e) -> lblNomePaciente.setText(cControl.pesquisarCpf()));
+		btPesquisar.setOnAction((e) -> cControl.pesquisarPorId(Integer.parseInt(tfId.getText())));
+		btAlterar.setOnAction((e) -> cControl.alterarPorId(Integer.parseInt(tfId.getText())));
+		btExcluir.setOnAction((e) -> cControl.excluirPorId(Integer.parseInt(tfId.getText())));
+		btAdicionar.setOnAction((e) -> cControl.adicionar());
+		btLimpar.setOnAction((e) -> cControl.limpar());
+		btVoltar.setOnAction((e) -> Principal.mudarScene(1));
+	}
+
+	private void adicionarComboBox() {
+		if (cbCpfPaciente.getItems().isEmpty()) {
+			cbCpfPaciente.getItems().addAll(ListaCpfs());
+		} else {
+			cbCpfPaciente.getItems().clear();
+			cbCpfPaciente.getItems().addAll(ListaCpfs());
+		}
+		if (cbNomeMedico.getItems().isEmpty()) {
+			cbNomeMedico.getItems().addAll(ListaNomes());
+		} else {
+			cbNomeMedico.getItems().clear();
+			cbNomeMedico.getItems().addAll(ListaNomes());
+		}
+	}
+
+	private List<String> ListaNomes() {
+		List<String> listanomes = new ArrayList<>();
+		for (Medico m : Principal.getMedicosRegistrados()) {
+			listanomes.add(m.getNome());
+		}
+		return listanomes;
+	}
+
+	private List<String> ListaCpfs() {
+		List<String> listacpf = new ArrayList<>();
+		for (Paciente p : Principal.getPacientesRegistrados()) {
+			listacpf.add(p.getCpf());
+		}
+		return listacpf;
+	}
+
 }
