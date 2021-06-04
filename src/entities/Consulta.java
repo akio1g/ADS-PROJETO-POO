@@ -1,14 +1,14 @@
 package entities;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalTime;
 
 public class Consulta {
 	private Integer id;
 	private String cpf;
 	private String nome;
 	private LocalDate ConsultaDia;
-	private Date ConsultaHora;
+	private LocalTime ConsultaHora;
 
 	public Integer getId() {
 		return id;
@@ -44,18 +44,18 @@ public class Consulta {
 		ConsultaDia = consultaDia;
 	}
 
-	public Date getConsultaHora() {
+	public LocalTime getConsultaHora() {
 		return ConsultaHora;
 	}
 
-	public void setConsultaHora(Date date) {
+	public void setConsultaHora(LocalTime date) {
 		ConsultaHora = date;
 	}
 
 	public Consulta() {
 	}
 
-	public Consulta(Integer id, String cpf, String nome, LocalDate consultaDia, Date consultaHora) {
+	public Consulta(Integer id, String cpf, String nome, LocalDate consultaDia, LocalTime consultaHora) {
 		this.id = id;
 		this.cpf = cpf;
 		this.nome = nome;

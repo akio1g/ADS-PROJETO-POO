@@ -55,11 +55,13 @@ public class CRUDPacienteBoundary {
 		pane2.add(tfCpf, 1, 2);
 		pane2.add(lblTelefone, 0, 3);
 		pane2.add(tfTelefone, 1, 3);
-		pane2.add(lblConvenio, 0, 4);
-		pane2.add(cbConvenio, 1, 4);
-		pane2.add(btAdicionar, 2, 4);
-		pane2.add(btLimpar, 3, 4);
-		pane2.add(btVoltar, 4, 4);
+		pane2.add(lblEndereco, 0, 4);
+		pane2.add(tfEndereco, 1, 4);
+		pane2.add(lblConvenio, 0, 5);
+		pane2.add(cbConvenio, 1, 5);
+		pane2.add(btAdicionar, 2, 5);
+		pane2.add(btLimpar, 3, 5);
+		pane2.add(btVoltar, 4, 5);
 
 		adicionarComboBox();
 		addAcoesBotoes();
@@ -67,7 +69,7 @@ public class CRUDPacienteBoundary {
 		VBox panePrincipal = new VBox(20);
 		panePrincipal.getChildren().addAll(pane1, pane2);
 		panePrincipal.setPadding(new Insets(10, 0, 0, 0));
-		Scene scn = new Scene(panePrincipal, 600, 200);
+		Scene scn = new Scene(panePrincipal, 600, 300);
 		return scn;
 	}
 

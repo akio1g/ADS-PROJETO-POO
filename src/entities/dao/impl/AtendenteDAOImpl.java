@@ -1,40 +1,51 @@
 package entities.dao.impl;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.Atendente;
-import entities.dao.AtendenteDAO;
 
-public class AtendenteDAOImpl implements AtendenteDAO{
+public class AtendenteDAOImpl {
+	private static final String URL = "jdbc:mariadb://localhost:3306/clinica";
+	private static final String USER = "admin";
+	private static final String PASSWORD = "1234";
 
-	@Override
-	public void inserir(Atendente atendente) {
-		// TODO Auto-generated method stub
-		
+	public AtendenteDAOImpl() {
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	@Override
-	public void atualizar(Atendente atendente) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void apagarPorId(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Atendente encontrarPorId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Atendente> encontrarTodos() {
-		// TODO Auto-generated method stub
+		List<Atendente> lista = new ArrayList<>();
+		try {
+			Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			PreparedStatement ps = conn
+					.prepareStatement("SELECT atendente.* FROM atendente");
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Atendente p = instanciarAtendente(rs);
+				lista.add(p);
+			}
+			return lista;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
+	private Atendente instanciarAtendente(ResultSet rs) throws SQLException {
+		Atendente p = new Atendente();
+		p.setLogin(rs.getString("login"));
+		p.setSenha(rs.getString("senha"));
+		return p;
+	}
 }

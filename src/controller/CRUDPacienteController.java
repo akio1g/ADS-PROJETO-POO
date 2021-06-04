@@ -2,23 +2,27 @@ package controller;
 
 import application.Principal;
 import entities.Paciente;
+import entities.dao.impl.PacienteDAOImpl;
 import entities.func.Func;
 
 public class CRUDPacienteController implements Func {
+	PacienteDAOImpl pDao = new PacienteDAOImpl();
 
 	@Override
 	public void adicionar() {
 		Paciente a = new Paciente();
 
-		a.setId(Principal.getPacientesRegistrados().size() + 1);
 		a.setNome(Principal.cpBoundary.tfNome.getText());
 		a.setDataNascimento(Principal.cpBoundary.tfData.getValue());
 		a.setCpf(Principal.cpBoundary.tfCpf.getText());
 		a.setTelefone(Principal.cpBoundary.tfTelefone.getText());
 		a.setEndereco(Principal.cpBoundary.tfEndereco.getText());
 		a.setConvenio(Principal.cpBoundary.cbConvenio.getValue());
+		pDao.inserir(a);
+		a.setId(pDao.devolverId(a.getCpf()));
 		Principal.cpBoundary.message.setText("Paciente ID: " + a.getId() + " adicionado!");
 		Principal.getPacientesRegistrados().add(a);
+		
 	}
 
 	@Override
@@ -34,6 +38,7 @@ public class CRUDPacienteController implements Func {
 				p.setEndereco(Principal.cpBoundary.tfEndereco.getText());
 				p.setConvenio(Principal.cpBoundary.cbConvenio.getValue());
 				Principal.cpBoundary.message.setText("Paciente ID: " + p.getId() + " alterado!");
+				pDao.atualizar(p);
 			}
 		}
 		if (opc == false) {
@@ -49,6 +54,7 @@ public class CRUDPacienteController implements Func {
 				opc = true;
 				Principal.getPacientesRegistrados().remove(p);
 				Principal.cpBoundary.message.setText("Paciente ID: " + id + " removido!");
+				pDao.apagarPorId(id);
 				break;
 			}
 		}
@@ -59,19 +65,15 @@ public class CRUDPacienteController implements Func {
 
 	@Override
 	public void pesquisarPorId(Integer id) {
-		boolean opc = false;
-		for (Paciente p : Principal.getPacientesRegistrados()) {
-			if (p.getId() == id) {
-				opc = true;
-				Principal.cpBoundary.tfNome.setText(p.getNome());
-				Principal.cpBoundary.tfData.setValue(p.getDataNascimento());
-				Principal.cpBoundary.tfCpf.setText(p.getCpf());
-				Principal.cpBoundary.tfTelefone.setText(p.getTelefone());
-				Principal.cpBoundary.tfEndereco.setText(p.getEndereco());
-				Principal.cpBoundary.cbConvenio.setValue(p.getConvenio());
-			}
-		}
-		if (opc == false) {
+		Paciente p = pDao.encontrarPorId(id);
+		if(p!= null) {
+			Principal.cpBoundary.tfNome.setText(p.getNome());
+			Principal.cpBoundary.tfData.setValue(p.getDataNascimento());
+			Principal.cpBoundary.tfCpf.setText(p.getCpf());
+			Principal.cpBoundary.tfTelefone.setText(p.getTelefone());
+			Principal.cpBoundary.tfEndereco.setText(p.getEndereco());
+			Principal.cpBoundary.cbConvenio.setValue(p.getConvenio());
+		} else {
 			Principal.cpBoundary.message.setText("Paciente ID: " + id + " não encontrado!");
 		}
 	}

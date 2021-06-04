@@ -1,7 +1,7 @@
 package controller.registros;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalTime;
 
 import application.Principal;
 import entities.Consulta;
@@ -31,13 +31,13 @@ public class tabelaConsulta implements telaStrategy{
 		TableColumn<Consulta, String> colunaCpfPaciente = new TableColumn<>("Cpf do Paciente");
 		TableColumn<Consulta, String> colunaNomeDoMedico = new TableColumn<>("Nome do Medico");
 		TableColumn<Consulta, LocalDate> colunaDiaConsulta = new TableColumn<>("Dia da Consulta");
-		TableColumn<Consulta, Date> colunaHoraConsulta = new TableColumn<>("Horario da Consulta");
+		TableColumn<Consulta, LocalTime> colunaHoraConsulta = new TableColumn<>("Horario da Consulta");
 
 		colunaId.setCellValueFactory(new PropertyValueFactory<Consulta, Integer>("id"));
 		colunaCpfPaciente.setCellValueFactory(new PropertyValueFactory<Consulta, String>("cpf"));
 		colunaNomeDoMedico.setCellValueFactory(new PropertyValueFactory<Consulta, String>("nome"));
 		colunaDiaConsulta.setCellValueFactory(new PropertyValueFactory<Consulta, LocalDate>("consultaDia"));
-		colunaHoraConsulta.setCellValueFactory(new PropertyValueFactory<Consulta, Date>("consultaHora"));
+		colunaHoraConsulta.setCellValueFactory(new PropertyValueFactory<Consulta, LocalTime>("consultaHora"));
 
 		colunaDiaConsulta.setCellFactory(cell -> {
 			return new TableCell<Consulta, LocalDate>() {
@@ -54,12 +54,12 @@ public class tabelaConsulta implements telaStrategy{
 			};
 		});
 		colunaHoraConsulta.setCellFactory(cell -> {
-			return new TableCell<Consulta, Date>() {
+			return new TableCell<Consulta, LocalTime>() {
 				@Override
-				protected void updateItem(Date item, boolean empty) {
+				protected void updateItem(LocalTime item, boolean empty) {
 					super.updateItem(item, empty);
 					if (!empty) {
-						setText(Principal.sdf1.format(item));
+						setText(Principal.dtf1.format(item));
 					} else {
 						setText("");
 						setGraphic(null);

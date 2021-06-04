@@ -1,6 +1,5 @@
 package application;
 
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ import utils.LogsIniciais;
 
 public class Principal extends Application {
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	public static SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
+	public static DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("H:mm");
 	public static Stage stage;
 	public static Scene scn = null;
 	public static PrincipalBoundary pBoundary = new PrincipalBoundary();
@@ -93,5 +92,21 @@ public class Principal extends Application {
 
 	public static List<Atendente> getAtendentesRegistrados() {
 		return atendentesRegistrados;
+	}
+
+	public static void setMedicosRegistrados(List<Medico> medicosRegistrados) {
+		Principal.medicosRegistrados = medicosRegistrados;
+	}
+
+	public static void setPacientesRegistrados(List<Paciente> pacientesRegistrados) {
+		Principal.pacientesRegistrados = pacientesRegistrados;
+	}
+
+	public static void setConsultaRegistrados(List<Consulta> consultaRegistrados) {
+		Principal.consultaRegistrados = consultaRegistrados;
+	}
+
+	public static void setAtendentesRegistrados(List<Atendente> atendentesRegistrados) {
+		Principal.atendentesRegistrados = atendentesRegistrados;
 	}
 }

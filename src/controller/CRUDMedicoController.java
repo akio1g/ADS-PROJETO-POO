@@ -3,22 +3,25 @@ package controller;
 
 import application.Principal;
 import entities.Medico;
+import entities.dao.impl.MedicoDAOImpl;
 import entities.func.Func;
 
 public class CRUDMedicoController implements Func{
-
+	MedicoDAOImpl mDao = new MedicoDAOImpl();
 	@Override
 	public void adicionar() {
 		Medico a = new Medico();
-		a.setId(Principal.getMedicosRegistrados().size() + 1);
 		a.setNome(Principal.cmBoundary.tfNome.getText());
 		a.setDataNascimento(Principal.cmBoundary.tfData.getValue());
 		a.setCpf(Principal.cmBoundary.tfCpf.getText());
 		a.setTelefone(Principal.cmBoundary.tfTelefone.getText());
 		a.setEndereco(Principal.cmBoundary.tfEndereco.getText());
 		a.setEspecialidade(Principal.cmBoundary.cbEspecialidade.getValue());
+		mDao.inserir(a);
+		a.setId(mDao.devolverId(a.getCpf()));
 		Principal.cmBoundary.message.setText("Médico ID: " + a.getId() + " adicionado!");
 		Principal.getMedicosRegistrados().add(a);
+		
 	}
 
 	@Override
@@ -34,6 +37,7 @@ public class CRUDMedicoController implements Func{
 				p.setEndereco(Principal.cmBoundary.tfEndereco.getText());
 				p.setEspecialidade(Principal.cmBoundary.cbEspecialidade.getValue());
 				Principal.cmBoundary.message.setText("Médico ID: " + p.getId() + " alterado!");
+				mDao.atualizar(p);
 			}
 		}
 		if (opc == false) {
@@ -49,6 +53,7 @@ public class CRUDMedicoController implements Func{
 				opc = true;
 				Principal.getMedicosRegistrados().remove(p);
 				Principal.cmBoundary.message.setText("Médico ID: " + id + " removido!");
+				mDao.apagarPorId(id);
 				break;
 			}
 		}
@@ -59,20 +64,16 @@ public class CRUDMedicoController implements Func{
 
 	@Override
 	public void pesquisarPorId(Integer id) {
-		boolean opc = false;
-		for (Medico p : Principal.getMedicosRegistrados()) {
-			if (p.getId() == id) {
-				opc = true;
-				Principal.cmBoundary.tfNome.setText(p.getNome());
-				Principal.cmBoundary.tfData.setValue(p.getDataNascimento());
-				Principal.cmBoundary.tfCpf.setText(p.getCpf());
-				Principal.cmBoundary.tfTelefone.setText(p.getTelefone());
-				Principal.cmBoundary.tfEndereco.setText(p.getEndereco());
-				Principal.cmBoundary.cbEspecialidade.setValue(p.getEspecialidade());
-			}
-		}
-		if (opc == false) {
-			Principal.cmBoundary.message.setText("Médico ID: " + id + " não encontrado!");
+		Medico p = mDao.encontrarPorId(id);
+		if(p!= null) {
+			Principal.cmBoundary.tfNome.setText(p.getNome());
+			Principal.cmBoundary.tfData.setValue(p.getDataNascimento());
+			Principal.cmBoundary.tfCpf.setText(p.getCpf());
+			Principal.cmBoundary.tfTelefone.setText(p.getTelefone());
+			Principal.cmBoundary.tfEndereco.setText(p.getEndereco());
+			Principal.cmBoundary.cbEspecialidade.setValue(p.getEspecialidade());
+		} else {
+			Principal.cmBoundary.message.setText("Medico ID: " + id + " não encontrado!");
 		}
 	}
 
